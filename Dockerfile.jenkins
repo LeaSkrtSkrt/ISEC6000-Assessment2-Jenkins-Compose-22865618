@@ -1,0 +1,13 @@
+# Jenkins LTS controller image
+FROM jenkins/jenkins:lts-jdk17
+
+# Root is used only during image creation to install required tools
+USER root
+
+# Install Docker CLI, Git and supporting utilities for Jenkins pipeline jobs
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends docker.io git ca-certificates curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Run Jenkins using the built-in non-root account
+USER jenkins
